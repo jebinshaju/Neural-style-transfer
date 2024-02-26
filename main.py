@@ -137,8 +137,8 @@ class StyleContentModel(tf.keras.models.Model):
   
 
 
-content_path = "content/contentpic.jpg"
-style_path = "style/stylepic.jpg"
+content_path = "/mount/src/neural-style-transfer/content/contentpic.jpg"
+style_path = "/mount/src/neural-style-transfer/style/stylepic.jpg"
 
 
 
@@ -269,4 +269,4 @@ generated_image_pil.save("generated_image.jpg")
 
 '''
 image_pil = tensor_to_image(image)
-image_pil.save("generated_image.jpg")
+image_pil.save("/mount/src/neural-style-transfer/generated_image.jpg")
