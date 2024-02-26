@@ -44,7 +44,7 @@ def main():
             os.makedirs(save_dir_content)
         save_uploaded_file(content_uploaded_file, save_dir_content, "contentpic.jpg")
         st.success("Content image uploaded successfully!")
-        st.image("content/contentpic.jpg", caption="Content Image")
+        st.image("/mount/src/neural-style-transfer/content/contentpic.jpg", caption="Content Image")
 
     
     style_uploaded_file = st.file_uploader("Upload Style Image", type=None)
@@ -55,7 +55,7 @@ def main():
             os.makedirs(save_dir_style)
         save_uploaded_file(style_uploaded_file, save_dir_style, "stylepic.jpg")
         st.success("Style image uploaded successfully!")
-        st.image("style/stylepic.jpg", caption="Style Image")
+        st.image("/mount/src/neural-style-transfer/style/stylepic.jpg", caption="Style Image")
 
         # Load the current value from the text file
     current_value = load_value()
@@ -78,7 +78,7 @@ def main():
         st.success("Image Generated.")
 
         if os.path.exists("generated_image.jpg"):
-            st.image("generated_image.jpg", caption="Generated Image")
+            st.image("/mount/src/neural-style-transfer/generated_image.jpg", caption="Generated Image")
         else:
             st.error("No generated image found!")
 
