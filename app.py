@@ -14,10 +14,6 @@ def run_uitest_file(progress_bar):
     progress_bar.progress(100)
 
 
-   
-
-    
-
 def load_value():
     try:
         # Load the current value from the text file
@@ -32,20 +28,29 @@ def update_value(new_value):
     # Update the value in the text file
     with open('variable_value.txt', 'w') as file:
         file.write(str(int(new_value)))
+
 def main():
     st.title("Neural Style Transfer")
+    st.write("Neural Style Transfer is a technique that employs deep neural networks, such as VGG19, to blend the artistic style of one image with the content of another, resulting in visually appealing synthesized images.")
     
-   
-    content_uploaded_file = st.file_uploader("Upload Content Image", type=None)
-    
-    if content_uploaded_file is not None:
-        save_dir_content = "content"
-        if not os.path.exists(save_dir_content):
-            os.makedirs(save_dir_content)
-        save_uploaded_file(content_uploaded_file, save_dir_content, "contentpic.jpg")
-        st.success("Content image uploaded successfully!")
-        st.image("/mount/src/neural-style-transfer/content/contentpic.jpg", caption="Content Image")
+    option = st.radio("Select Image Source:", ("Take Picture", "Upload from System"))
 
+    if option == "Take Picture":
+        picture = st.camera_input("Take a picture:")
+        if picture:
+            with open('content/contentpic.jpg', 'wb') as file:
+                file.write(picture.getbuffer())
+            st.success("Picture taken successfully!")
+
+    elif option == "Upload from System":
+        content_uploaded_file = st.file_uploader("Upload Content Image", type=None)
+        if content_uploaded_file is not None:
+            save_dir_content = "content"
+            if not os.path.exists(save_dir_content):
+                os.makedirs(save_dir_content)
+            save_uploaded_file(content_uploaded_file, save_dir_content, "contentpic.jpg")
+            st.success("Content image uploaded successfully!")
+            st.image("content/contentpic.jpg", caption="Content Image")
     
     style_uploaded_file = st.file_uploader("Upload Style Image", type=None)
     
@@ -55,20 +60,15 @@ def main():
             os.makedirs(save_dir_style)
         save_uploaded_file(style_uploaded_file, save_dir_style, "stylepic.jpg")
         st.success("Style image uploaded successfully!")
-        st.image("/mount/src/neural-style-transfer/style/stylepic.jpg", caption="Style Image")
+        st.image("style/stylepic.jpg", caption="Style Image")
 
-        # Load the current value from the text file
     current_value = load_value()
-
-    # Display the slider widget
     new_value = st.slider('Adjust the strength:', 1, 10, current_value)
 
-    # Update the value in the text file if it's changed
     if new_value != current_value:
         update_value(new_value)
         st.success('Value updated successfully!')
 
-    
     if st.button("Transfer Style"):
         st.write("Processing....")
         progress_bar = st.progress(0)  # Create progress bar
@@ -78,7 +78,7 @@ def main():
         st.success("Image Generated.")
 
         if os.path.exists("generated_image.jpg"):
-            st.image("/mount/src/neural-style-transfer/generated_image.jpg", caption="Generated Image")
+            st.image("generated_image.jpg", caption="Generated Image")
         else:
             st.error("No generated image found!")
 

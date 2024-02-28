@@ -28,7 +28,7 @@ def vgg_layers(layer_names):
   """ Creates a VGG model that returns a list of intermediate output values."""
   # Load our model. Load pretrained VGG, trained on ImageNet data
 
-  vgg = tf.keras.applications.VGG19(include_top=False, weights='imagenet')
+  vgg = tf.keras.applications.VGG19(include_top=False, weights='vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5')
   vgg.trainable = False
   
   outputs = [vgg.get_layer(name).output for name in layer_names]
@@ -137,8 +137,8 @@ class StyleContentModel(tf.keras.models.Model):
   
 
 
-content_path = "/mount/src/neural-style-transfer/content/contentpic.jpg"
-style_path = "/mount/src/neural-style-transfer/style/stylepic.jpg"
+content_path = "content/contentpic.jpg"
+style_path = "style/stylepic.jpg"
 
 
 
@@ -149,7 +149,7 @@ style_image = load_img(style_path)
 
 x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
 x = tf.image.resize(x, (224, 224))
-vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
+vgg = tf.keras.applications.VGG19(include_top=True, weights='vgg19_weights_tf_dim_ordering_tf_kernels.h5')
 prediction_probabilities = vgg(x)
 prediction_probabilities.shape
 
@@ -157,7 +157,7 @@ predicted_top_5 = tf.keras.applications.vgg19.decode_predictions(prediction_prob
 [(class_name, prob) for (number, class_name, prob) in predicted_top_5]
 
 
-vgg = tf.keras.applications.VGG19(include_top=False, weights='imagenet')
+vgg = tf.keras.applications.VGG19(include_top=False, weights='vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5')
 """print()
 for layer in vgg.layers:
   print(layer.name)"""
@@ -269,4 +269,4 @@ generated_image_pil.save("generated_image.jpg")
 
 '''
 image_pil = tensor_to_image(image)
-image_pil.save("/mount/src/neural-style-transfer/generated_image.jpg")
+image_pil.save("generated_image.jpg")
